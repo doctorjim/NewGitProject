@@ -1,0 +1,891 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"ENVI",
+				"ENVIRONS"
+			],
+			[
+				"byt",
+				"bytesOSM"
+			],
+			[
+				"New",
+				"NewSponsorship"
+			],
+			[
+				"Dis",
+				"DistributionLine"
+			],
+			[
+				"setD",
+				"setDataInForm"
+			],
+			[
+				"B",
+				"B"
+			],
+			[
+				"Benefi",
+				"beneficiaryID"
+			],
+			[
+				"file",
+				"filenames"
+			],
+			[
+				"star",
+				"startTimes"
+			],
+			[
+				"join",
+				"joinDoc"
+			],
+			[
+				"wfIt",
+				"wfItemId"
+			],
+			[
+				"mgJ",
+				"mgJoinDoc2"
+			],
+			[
+				"iden",
+				"identityObj"
+			],
+			[
+				"id",
+				"identityObj"
+			],
+			[
+				"tiff",
+				"tiff2s"
+			],
+			[
+				"len",
+				"length"
+			],
+			[
+				"IND",
+				"INDocument"
+			],
+			[
+				"importDocID",
+				"importDocIDs"
+			],
+			[
+				"joi",
+				"joinDocIdOrIdentity"
+			],
+			[
+				"EFORM",
+				"EFORM_Q"
+			],
+			[
+				"STA",
+				"STAGING_Q"
+			],
+			[
+				"l",
+				"length"
+			],
+			[
+				"sortF",
+				"sortField"
+			],
+			[
+				"view",
+				"viewFilter"
+			],
+			[
+				"pick",
+				"pickupDir"
+			],
+			[
+				"do",
+				"domain"
+			],
+			[
+				"slu",
+				"slushName"
+			],
+			[
+				"fil",
+				"fileCaches"
+			],
+			[
+				"Ben",
+				"Beneficiary"
+			],
+			[
+				"Globa",
+				"GlobalId"
+			],
+			[
+				"rei",
+				"reindexDocument"
+			],
+			[
+				"inval",
+				"invalidKeys"
+			],
+			[
+				"docTyp",
+				"docTypeName"
+			],
+			[
+				"jsonP",
+				"jsonPropVal"
+			],
+			[
+				"rou",
+				"routeItem"
+			],
+			[
+				"EN",
+				"ENVIRON"
+			],
+			[
+				"b2",
+				"B2S"
+			],
+			[
+				"er",
+				"errorQ"
+			],
+			[
+				"US",
+				"USE_CASES"
+			],
+			[
+				"toke",
+				"tokenObj"
+			],
+			[
+				"to",
+				"tokenCache"
+			],
+			[
+				"write",
+				"writeToFile"
+			],
+			[
+				"succe",
+				"success"
+			],
+			[
+				"tok",
+				"tokenObj"
+			],
+			[
+				"respons",
+				"responseType"
+			],
+			[
+				"Win",
+				"WinHTTPRequest"
+			],
+			[
+				"u",
+				"u_set_sys_id"
+			],
+			[
+				"csetI",
+				"csetIDs"
+			],
+			[
+				"sys",
+				"sys_id"
+			],
+			[
+				"ap",
+				"approval"
+			],
+			[
+				"app",
+				"approver_comments"
+			],
+			[
+				"failu",
+				"failureComments"
+			],
+			[
+				"del",
+				"deleteRecord"
+			],
+			[
+				"cs",
+				"csetID"
+			],
+			[
+				"uset",
+				"uset_name"
+			],
+			[
+				"prot",
+				"prototype"
+			],
+			[
+				"pro",
+				"prototype"
+			],
+			[
+				"fie",
+				"fieldName"
+			],
+			[
+				"va",
+				"varName"
+			],
+			[
+				"use",
+				"useCase"
+			],
+			[
+				"us",
+				"useCase"
+			],
+			[
+				"g",
+				"g_form"
+			],
+			[
+				"get",
+				"getRecordClassName"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "/********************************************************************************	\n	Name:			UpdatePage.js\n	Author:			Jim Dodge\n	Created:		6/24/2016\n	For Version:	6.7\n---------------------------------------------------------------------------------\n	Summary:\n		\n	Mod Summary:\n				\n	Execution Method:\n		\n********************************************************************************/\n\n// ********************* Include additional libraries *******************\n\n//ENVIRON variable ('DEV','TEST','STAGE','PROD')\n	#include \"$IMAGENOWDIR6$/script/ENVIRON/ENVIRON.js\"\n\n//STL packages\n	#include \"$IMAGENOWDIR6$/script/STL/packages/Logging/iScriptDebug.js\"\n	#include \"$IMAGENOWDIR6$/script/STL/packages/File/copyFile.js\"\n	#include \"$IMAGENOWDIR6$/script/STL/packages/File/advancedArchiveFile.js\"\n	#include \"$IMAGENOWDIR6$/script/STL/packages/System/exec.js\"\n	#include \"$IMAGENOWDIR6$/script/STL/packages/Document/getDocLogobArray.js\"\n	#include \"$IMAGENOWDIR6$/script/STL/packages/Document/getPageSizes.js\"\n\n// *********************        Configuration        *******************\n\n#define CONFIG_VERIFIED     true   // set to true when configuration values have been verified\n\n//Logging\n#define LOG_TO_FILE         true    // false - log to stdout if ran by intool, true - log to inserverXX/log/ directory\n#define DEBUG_LEVEL         5       // 0 - 5.  0 least output, 5 most verbose\n#define SPLIT_LOG_BY_THREAD false   // set to true in high volume scripts when multiple worker threads are used (workflow, external message agent, etc)\n#define MAX_LOG_FILE_SIZE   100     // Maximum size of log file (in MB) before a new one will be created\n\nvar ENVIRONS =	{\n					DEV:\n					{\n						username: 		'jimd',\n						password: 		'Wh@tDuHek5!4..',\n						updateScript: 	'C:\\\\Users\\\\jimd\\\\Desktop\\\\UpdateTIFF.js',\n						filesDir: 		'C:\\\\Users\\\\jimd\\\\Desktop\\\\UpdatePics\\\\*.*',\n						failureDir: 	'C:\\\\Users\\\\jimd\\\\Desktop\\\\UpdatePics\\\\Failures\\\\',\n						successDir: 	'C:\\\\Users\\\\jimd\\\\Desktop\\\\UpdatePics\\\\Successes\\\\',\n						endPoint: 		'http://GMC1130b:8080/integrationserver/v1/document/{DOC_ID}/page/{PAGE_ID}/file'\n					},\n					TEST:\n					{\n\n					},\n					STAGE:\n					{\n						username: 		'jimd',\n						password: 		'',\n						updateScript: 	'D:\\\\inserver6\\\\script\\\\UpdateTIFF.js',\n						//filesDir: 	'\\\\\\\\hdc2115\\\\e$\\\\UpdatePics\\\\*.*',\n						//failureDir: 	'\\\\\\\\hdc2115\\\\e$\\\\UpdatePics\\\\Failures\\\\',\n						//successDir: 	'\\\\\\\\hdc2115\\\\e$\\\\UpdatePics\\\\Successes\\\\',\n						filesDir: 		'\\\\\\\\hdc2115\\\\imagenowdir6\\\\UpdatePics\\\\*.*',\n						failureDir: 	'\\\\\\\\hdc2115\\\\imagenowdir6\\\\UpdatePics\\\\Failures\\\\',\n						successDir: 	'\\\\\\\\hdc2115\\\\imagenowdir6\\\\UpdatePics\\\\Successes\\\\',\n						endPoint: 		'https://hdc2111/integrationserver/v1/document/{DOC_ID}/page/{PAGE_ID}/file'\n					},\n					PROD:\n					{\n						username: 		'jimd',\n						password: 		'',\n						updateScript: 	'D:\\\\inserver6\\\\script\\\\UpdateTIFF.js',\n						filesDir: 		'\\\\\\\\Hdc0115\\\\imagenowdir6\\\\import\\\\SBC\\\\ISLRecovery\\\\Recovery01\\\\ISL\\\\20160601\\\\*.*',\n						failureDir: 	'\\\\\\\\Hdc0115\\\\imagenowdir6\\\\import\\\\SBC\\\\ISLRecovery\\\\Recovery01\\\\ISL\\\\20160601\\\\Failures\\\\',\n						successDir: 	'\\\\\\\\Hdc0115\\\\imagenowdir6\\\\import\\\\SBC\\\\ISLRecovery\\\\Recovery01\\\\ISL\\\\20160601\\\\Successes\\\\',\n						endPoint: 		'https://hdc0111/integrationserver/v1/document/{DOC_ID}/page/{PAGE_ID}/file'\n					}\n				};\n\n//var ENVIRON = 'DEV';   //'DEV','TEST','STAGE','PROD'\n\nvar DOCS_TO_PROCESS = 1;   //Set to -1 to process all docs\n\n// ********************* Initialize global variables ********************\nvar EXECUTION_METHODS = [\"INTOOL\"];    //[\"WORKFLOW\"]; //Allowed script execution methods: WORKFLOW, INTOOL, TASK, EFORM, EMA\nvar debug;\n\n/**\n * Main body of script.\n * @method main\n * @return {Boolean} True on success, false on error.\n */\nfunction main ()\n{\n	try\n	{\n		debug = new iScriptDebug(\"USE SCRIPT FILE NAME\", LOG_TO_FILE, DEBUG_LEVEL, undefined, {splitLogByThreadID:SPLIT_LOG_BY_THREAD, maxLogFileSize:MAX_LOG_FILE_SIZE});\n\n		debug.showINowInfo(\"INFO\");\n		debug.logAlways(\"INFO\", \"Script Version: $Id:  $\\n\");\n		debug.logAlways(\"INFO\", \"Script Name: %s\\n\", _argv[0]);\n\n		if (!CONFIG_VERIFIED)\n		{\n			var errorStr = \"Configuration not verified.  Please verify \\n\" +\n			\"the defines in the *** Configuration *** section at the top \\n\" +\n			\"of this script and set CONFIG_VERIFIED to true.  Aborting.\\n\\n\";\n			debug.log(\"CRITICAL\", errorStr);\n			printf(errorStr);\n			return false;\n		}\n		\n		//check script execution\n		if (!debug.checkExecution(EXECUTION_METHODS))\n		{\n			debug.log(\"CRITICAL\", \"This iScript is running as [%s] and is designed to run from [%s]\\n\", debug.getExecutionMethod(), EXECUTION_METHODS);\n			return false;\n		}\n\n		//==========================================================================================*/\n		var serverName = \"GMC1128b\";\n		var serverName = \"\";\n\n		/*\n		var services = getServerServices(serverName);\n		for(var i=0; i<services.length; i++)\n		{\n			var service = services[i];\n			printf('%s\\n%s\\n%s\\n\\n', service.name, service.displayName, service.state);\n		}\n		*/\n\n		var services = getServerServices(serverName);\n		var iNowServices = filteredServices(services, /^ImageNow/);   //(services, filter)\n\n		for(var i=0; i<iNowServices.length; i++)\n		{\n			var service = iNowServices[i];\n			printf('%s\\n%s\\n%s\\n\\n', service.name, service.displayName, service.state);\n		}\n\n		var svc = filteredServices(services, /ion Ide/);\n		for(var i=0; i<svc.length; i++)\n		{\n			var service = svc[i];\n			printf('%s\\n%s\\n%s\\n\\n', service.name, service.displayName, service.state);\n		}\n\n\n		return;\n\n\n\n		var env = ENVIRONS[ENVIRON];\n\n		var username = env.username;   //'jimd';\n		var password = env.password;\n		var updateScript = env.updateScript;   //'C:\\\\Users\\\\jimd\\\\Desktop\\\\UpdateTIFF.js';\n		var filesDir     = env.filesDir;       //'C:\\\\Users\\\\jimd\\\\Desktop\\\\UpdatePics\\\\*.*';\n		var failureDir   = env.failureDir;     //'C:\\\\Users\\\\jimd\\\\Desktop\\\\UpdatePics\\\\Failures\\\\';\n		var successDir   = env.successDir;     //'C:\\\\Users\\\\jimd\\\\Desktop\\\\UpdatePics\\\\Successes\\\\';\n		var endPoint = env.endPoint;   //'http://GMC1130b:8080/integrationserver/v1/document/{DOC_ID}/page/{PAGE_ID}/file'\n\n		var hash = \"NADA\";\n\n	    //Get list of files in folder and loop through\n		debug.log(\"DEBUG\", \"Source files: %s\\n\", filesDir);\n	    var files = SElib.directory(filesDir, false, ~FATTR_SUBDIR)\n	    if(files == null)\n	        files = [];\n	    debug.log(\"DEBUG\", \"File count: %s\\n\", files.length);\n\n	    for(var i=0; i<files.length; i++)\n	    {\n	    	if(i == DOCS_TO_PROCESS)\n	    		break;\n\n	    	var filePath = files[i].name;\n			var fileNameParts = SElib.splitFilename(filePath);\n			//var fileName = fileNameParts.name + fileNameParts.ext;\n			var docID = fileNameParts.name;   //321Z06Q_011FJF5PJ0000HJ\n			var pageID = 'NOT_FOUND';\n\n			//var docID = '321Z06Q_011FJF5PJ0000HJ';\n			//var pageID = '321Z06Q_011FJF5PJ0000HN';\n			//var filePath = 'C:\\\\Users\\\\jimd\\\\Desktop\\\\00000402.tif';\n			//var filePath = 'C:\\\\Users\\\\jimd\\\\Desktop\\\\typhoon.jpg';\n\n			var success = true;\n\n			//Get doc info\n			var doc = new INDocument(docID);\n			if (!doc.id || !doc.getInfo())\n			{\n				debug.log(\"CRITICAL\", \"Couldn't get info for doc [%s]: %s\\n\", docID, getErrMsg());\n				success = false;\n			}\n			else\n			{\n				debug.log('DEBUG', 'Working with document [%s].\\n', docID);\n\n				//Get pages\n				var pages = getDocLogobArray(doc);\n				if(!pages || pages.length != 1)\n				{\n					success = false;\n					debug.log('DEBUG', 'Failed to get single page for doc [%s].\\n', docID);\n				}\n			}\n\n			var strOutput = \"\";\n			if(success)\n			{\n				var page = pages[0];\n				//var bytesOSM = docPageSize(page);   return;\n				pageID = page.id;\n				var cmd = 'cscript.exe //Nologo \"' + updateScript + '\" ' + docID + ' ' + pageID + ' \"' + filePath + '\" ' + hash + ' ' + username + ' \"' + password + '\" \"' + endPoint + '\"';\n				success = exec(cmd, 0, true, strOutput);\n			}\n\n			printf((i+1) + ') DocID=' + docID + '   PageID=' + pageID + '\\n');\n\n			if(success)\n			{\n				var bytes = strOutput.match(/\\[(\\d+)\\]/)[1];   //[14480]\n				var httpStatus = strOutput.match(/<(\\d{3})>/)[1];   //<200>\n				if(httpStatus == '200')\n				{\n					hash = strOutput.match(/\\{(\\w+)\\}/)[1];   //{0ad240de3fd6a726713ab30eaeb4d8860f1f040ce}\n					var bytesOSM = docPageSize(page);\n					if(bytesOSM === false)\n					{\n						success == false;\n						printf('-->Failed to get Page size\\n');\n					}\n					else\n					{\n						if(bytesOSM == bytes)\n						{\n							printf('-->Succeeded\\n');\n						}\n						else\n						{\n							success == false;\n							printf('-->Failed size check (' + bytes + '/' + bytesOSM + ')\\n');\n						}\n					}\n				}\n				else\n				{\n					success = false;\n					printf('-->Failed HTTP Status (' + httpStatus + ')\\n');\n				}\n			}\n			else\n			{\n				printf('-->Failed in ' + updateScript + '\\n');\n			}\n\n			//printf(bytes);\n			//printf(httpStatus);\n			//printf(hash);\n\n			if(success)\n			{\n				if(!advancedArchiveFile(filePath, successDir, advancedArchiveFile.ARCHIVE))   //(fileToArchive, archiveDir, advancedArchiveFile.ARCHIVETIMESTAMP))\n				    debug.log(\"ERROR\", \"Failed to archive file [%s] to [%s]\\n\", filePath, successDir);\n			}\n			else   //Failed\n			{\n				if(!advancedArchiveFile(filePath, failureDir, advancedArchiveFile.ARCHIVE))   //(fileToArchive, archiveDir, advancedArchiveFile.ARCHIVETIMESTAMP))\n				    debug.log(\"ERROR\", \"Failed to archive file [%s] to [%s]\\n\", filePath, failureDir);\n			}\n\n			printf('Output:\\n' + strOutput + '\\n');\n		}\n\n		debug.log('DEBUG', 'Script exiting...\\n');\n		return;\n		//==========================================================================================\n	}\n	catch(e)\n	{\n		if (!debug)\n		{\n			printf(\"\\n\\nFATAL iSCRIPT ERROR: %s\\n\\n\", e.toString());\n		}\n		else\n		{\n			debug.setIndent(0);\n			debug.log(\"CRITICAL\", \"***********************************************\\n\");\n			debug.log(\"CRITICAL\", \"***********************************************\\n\");\n			debug.log(\"CRITICAL\", \"**                                           **\\n\");\n			debug.log(\"CRITICAL\", \"**    ***    Fatal iScript Error!     ***    **\\n\");\n			debug.log(\"CRITICAL\", \"**                                           **\\n\");\n			debug.log(\"CRITICAL\", \"***********************************************\\n\");\n			debug.log(\"CRITICAL\", \"***********************************************\\n\");\n			debug.log(\"CRITICAL\", \"\\n\\n\\n%s\\n\\n\\n\", e.toString());\n			debug.log(\"CRITICAL\", \"\\n\\nThis script has failed in an unexpected way.  Please\\ncontact Perceptive Software Customer Support at 800-941-7460 ext. 2\\nAlternatively, you may wish to email support@perceptivesoftware.com\\nPlease attach:\\n - This log file\\n - The associated script [%s]\\n - Any supporting files that might be specific to this script\\n\\n\", _argv[0]);\n			debug.log(\"CRITICAL\", \"***********************************************\\n\");\n			debug.log(\"CRITICAL\", \"***********************************************\\n\");\n			if (DEBUG_LEVEL < 3 && typeof(debug.getLogHistory) === \"function\")\n			{\n				debug.popLogHistory(11);\n				debug.log(\"CRITICAL\", \"Log History:\\n\\n%s\\n\\n\", debug.getLogHistory());\n			}\n		}\n	}\n	finally\n	{\n		if (typeof(stats) == \"object\")\n		{\n			if (debug) debug.logAlways(\"NOTIFY\", \"Done:\\n\\n%s\\n\", stats.getSortedStats());\n			else printf(\"Done:\\n\\n%s\\n\", stats.getSortedStats());\n		}\n		if (debug) debug.finish();\n	}\n}\n\n//********************* Function Definitions **********************************\n\nfunction filteredServices(services, filter)\n{\n	//Returns all services matching the RegEx filter.\n\n	var filtered = [];\n\n	for(var i=0; i<services.length; i++)\n	{\n		if(filter.test(services[i].displayName))\n			filtered.push(services[i]);\n	}\n	return filtered;\n}\n\nfunction getServerServices(serverName)\n{\n	/*\n	Returns an array of services as shown below.  serverName (or FQDN) must resolve to the correct IP.\n	An empty array is returned if there are no services or an error occurs.\n\n	Below is an example array returned.\n	[\n		{\n			name: 		  'AppMgmt',\n			displayName:  'Application Management',\n			state: 		  1\n		},\n		{\n			name: 		  'Winmgmt',\n			displayName:  'Windows Management Instrumentation',\n			state: 		  4\n		}\n	]\n\n	If an empty serverName is specified then the local system is assumed (an RPC call is not used).\n	If however the serverName is NOT empty then an RPC call is used instead even if the serverName\n	is \"localhost\" or \"127.0.0.1\".  Therefore, to avoid errors on workstations, etc. which do not\n	have the RPC service installed/running call this function only with an empty serverName. \n\n	SVC_STOPPED = 1\n	SVC_RUNNING = 4\n	SVC_PAUSED  = 7\n	SVC_STOP_PENDING = 3\n	SVC_START_PENDING = 2\n	*/\n\n	var services = [];\n\n	var cmd = 'sc.exe \\\\\\\\localhost query state= all';\n	if(serverName == \"\")\n		cmd = cmd.replace('\\\\\\\\\\\\\\\\localhost', \"\");   //Avoids an RPC call\n	else\n		cmd = cmd.replace('localhost', serverName);\n\n	var strOutput = \"\";\n	if(!exec(cmd, 0, true, strOutput))\n		return [];\n\n	var svcRows = strOutput.split('\\nSERVICE_NAME: ');\n	for(var i=1; i<svcRows.length; i++)\n	{\n		if(!/^(.+)\\n.+: (.+)\\n.+\\n.+: (\\d+)/.test(svcRows[i]))\n			return [];\n		services.push({name:RegExp.$1, displayName:RegExp.$2, state:parseInt(RegExp.$3)});\n	}\n	return services;\n}\n\nfunction docPageSize(objPage)\n{\n	//Returns the Page file size in bytes on success.\n	//Returns false on failure.\n\n	try\n	{\n		var pageOsmPath = objPage.filePath;\n		debug.log(\"DEBUG\", \"docPageSize: Page OSM filepath [%s]\\n\", pageOsmPath);\n		var files = SElib.directory(pageOsmPath, false);\n		if (!files || files.length != 1)\n		{	\n			debug.log(\"DEBUG\", \"docPageSize: Failed to find the OSM file for page [%s]\\n\", objPage.id);\n			return false;\n		}\n		var bytes = files[0].size;\n		debug.log(\"DEBUG\", \"docPageSize: Page [%s] has size [%s]\\n\", objPage.id, bytes);\n		return bytes;\n	}\n	catch(e)\n	{\n		return false;\n	}\n}\n\n//-- last line must be a comment --\n",
+			"file": "/C/Users/jdodge/Desktop/TCPT/Perceptive/R4/newScripts/PollPerceptive/PollPerceptive.js",
+			"file_size": 14158,
+			"file_write_time": 131129274554481473,
+			"settings":
+			{
+				"buffer_size": 13728,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Jim/Mobile/PollPerceptive/app/main-page.xml",
+			"settings":
+			{
+				"buffer_size": 328,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Jim/Mobile/PollPerceptive/app/main-view-model.js",
+			"settings":
+			{
+				"buffer_size": 592,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "Package Control Messages\n========================\n\nSublimerge Pro\n--------------\n\n  Sublimerge has just been installed. Thanks!\n  \n  It is highly recommended to restart Sublime Text before first use.\n  ------------------------------------------------------------------\n  \n  Simplified usage instructions\n  =============================\n  \n  In file view:\n  \n      [ctrl]+[alt]+[d]                - display Quick Panel with Sublimerge commands available for current view\n  \n  In diff view:\n  \n      [/]                             - display Differences Navigator\n      [down]                          - select the next difference (only single selection is possible)\n      [up]                            - select the previous difference (only single selection is possible)\n      [left]                          - merge selected change(s) from right to left\n      [right]                         - merge selected change(s) from left to right\n      [shift]+[left]                  - merge all changes from right to left\n      [shift]+[right]                 - merge all changes from left to right\n      [ctrl]+[enter]                  - toggle edit mode (currently in 2-way diff view only)\n      [ctrl]+[alt]+[left click]       - select/deselect change block (multiple selection is possible)\n      [ctrl]+[shift]+[left click]     - merge selected changes from left to right\n      [ctrl]+[shift]+[right click]    - merge selected changes from right to left\n  \n  In directories diff view:\n  \n      [enter]                         - enter subdirectory (if differs) or diff selected text file\n      [down]                          - select next file/directory\n      [up]                            - select previous file/directory or navigate one level up\n      [ctrl]+[alt]+[left click]       - select/deselect change block (multiple selection is possible)\n      [right]                         - apply selected change from left to right\n      [left]                          - apply all changes from left to right\n      [shift]+[left]                  - apply selected change from right to left\n      [shift]+[right]                 - apply all changes from right to left\n  \n  \n  Licensing\n  =========\n  \n  If you like Sublimerge, please support development by buying a license. It doesn't cost much! :)\n  \n  \n  Solving most common problems\n  ============================\n  \n  Sublimerge doesn't work. Console reports: \"ImportError: No module named 'sublimerge'\"\n  \n  If you installed Sublimerge using Package Control, please make sure that you use its final version.\n  Alpha does not install Sublimerge properly. You can also try Manual Installation (please view\n  sublimerge.com/installation.html for more details)\n  \n  \n  See also\n  ========\n  \n  If you are using Gerrit Code Review, please take a look at SublimeGerrit - the full featured\n  Gerrit Code Review integration for Sublime Text - http://www.sublimegerrit.com/\n  \n  \n  More information\n  ================\n  \n  For more information, troubleshooting, customizing settings and more, please visit www.sublimerge.com\n  \n  \n  By the way...\n  =============\n  Take a break from your work and play my BF's Draughts on your iOS device!\n  Available on the App Store! :)\n  \n  http://www.bfdraughts.com/as/\n",
+			"settings":
+			{
+				"buffer_size": 3253,
+				"line_ending": "Windows",
+				"name": "Package Control Messages",
+				"read_only": true,
+				"scratch": true
+			}
+		},
+		{
+			"file": "/C/Jim/Mobile/sample-Groceries/app/app.js",
+			"settings":
+			{
+				"buffer_size": 520,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/jdodge/Desktop/TCPT/Perceptive/R4/newScripts/PollPerceptive/Blah.js",
+			"settings":
+			{
+				"buffer_size": 2457,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 490.0,
+		"last_filter": "pacon",
+		"selected_items":
+		[
+			[
+				"pacon",
+				"Package Control: Install Package"
+			],
+			[
+				"paccontins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 549.0
+	},
+	"console":
+	{
+		"height": 504.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"cls",
+			"dir"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/jdodge/Desktop/TCPT/Perceptive/R4/newScripts/PollPerceptive",
+		"/C/Jim/Mobile",
+		"/C/Jim/Mobile/sample-Groceries"
+	],
+	"file_history":
+	[
+		"/C/Jim/Mobile/NewGitProject/NewGitProject.sublime-project",
+		"/C/Users/jdodge/Desktop/TCPT/Perceptive/R4/newScripts/PollPerceptive/PollPerceptive.sublime-project",
+		"/C/Users/jdodge/AppData/Roaming/Sublime Text 3/Packages/Sublimerge Pro/Custom Comparisons.sublime-settings",
+		"/C/Jim/Mobile/PollPerceptive/app/app.css",
+		"/C/Jim/Mobile/PollPerceptive/app/app2.css",
+		"/C/Jim/Mobile/Groceries/Groceries/node_modules/babel-traverse/node_modules/babel-runtime/node_modules/core-js/client/shim.min.js",
+		"/C/Jim/Mobile/Groceries/Groceries/node_modules/babel-traverse/node_modules/babel-runtime/node_modules/core-js/client/core.js",
+		"/C/Jim/Mobile/PollPerceptive/platforms/android/src/main/assets/app/main-view-model.js",
+		"/C/Jim/Mobile/PollPerceptive/platforms/android/build/intermediates/assets/F0/debug/app/main-view-model.js",
+		"/C/Jim/Mobile/PollPerceptive/app/app .css",
+		"/C/Jim/Mobile/PollPerceptive/app/app  .css",
+		"/C/Users/jdodge/Desktop/TCPT/Perceptive/R4/newScripts/PollPerceptive/PollPerceptive.js",
+		"/C/Users/jdodge/Desktop/TCPT/Perceptive/R4/newScripts/PollPerceptive/Blah",
+		"/C/Users/jdodge/Desktop/TCPT/Perceptive/R4/newScripts/PollPerceptive/PollPerceptive.sublime-workspace",
+		"/C/scripts/helloWorld.js",
+		"/C/scripts/html/getDocImage.htm",
+		"/C/scripts/html/restToSalesforceImage.htm",
+		"/C/scripts/restToSalesforce0.js",
+		"/C/Users/jdodge/Desktop/TCPT/Perceptive/MIRT/CI_CaptureProcessing.js",
+		"/C/scripts/CI_CheckOutputToX937.js",
+		"/C/scripts/CI_CompassOutput.js",
+		"/C/Users/jdodge/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/scripts/restToSaleforce.js",
+		"/C/scripts/restToSaleforce.vbs",
+		"/C/Users/jdodge/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/PerceptiveConnectExtensions.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/CI_EMAConversionOfBeneficiaryPhotos_Functions.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/INMAC_Submit.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/INMAC_Finish.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/INMAC_Process.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/INMAC_PurgeBackup.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/INMAC_FeedConversion.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/CI_CaptureProcessing - 20150130.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/CI_CaptureProcessing - 20150130_2.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/CI_CaptureProcessing.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/CI_CaptureProcessing_01.15.15.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/CI_CaptureProcessing_01.26.15.js",
+		"/C/Users/jdodge/Desktop/IScript/inserver6/script/CI_CheckOutputToX937.js",
+		"/C/Users/jdodge/AppData/Roaming/Sublime Text 3/Packages/User/Plain text.sublime-settings"
+	],
+	"find":
+	{
+		"height": 27.0
+	},
+	"find_in_files":
+	{
+		"height": 117.0,
+		"where_history":
+		[
+			"C:\\Jim\\Mobile\\PollPerceptive\\app"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"\\",
+			"PollPerceptive",
+			"left",
+			"getServicesProperties",
+			"xmlhttp",
+			"fileName",
+			"pf",
+			"SUPPORTER_LOOKUP_URLS",
+			"Service call",
+			"service call",
+			"service call error",
+			"getSupporterJsonObj",
+			"writeToFile",
+			"getJSON",
+			"lineItem",
+			"transform",
+			"transFormDistLine",
+			"transformLineItem",
+			"transform",
+			"loadSearchNodes",
+			"getFormXML",
+			"fm",
+			"transformLineItem",
+			"ToNumber",
+			"PATH_TO_LINE_ITEM_NODES",
+			"mergeDistrAndPaymentInfo",
+			"setInvalidReasons",
+			"INVALID_REASON_MULTIPLE_FORMS",
+			"MERGE_CONFIGURATION",
+			"oneStubWithChecksDistribution",
+			"mergeDistrAndPaymentInfo",
+			"mergePaymentDistribution",
+			"mergePaymentInformation",
+			"getFormXML",
+			"mergeFn",
+			"fm",
+			"FormManager",
+			"requested",
+			"criteria",
+			"frequency",
+			"populateObject",
+			"getBankAccountNumber",
+			"docCPs",
+			"getDocTypeCPs",
+			"DocumentTypeTag",
+			"spoolFileToBuffer",
+			"escapeForRegExp",
+			"REMOVE_XML_PAGE",
+			"moveDocPages",
+			"iEmail",
+			"escapeForRegExp",
+			"generateUniqueID",
+			"getValueFromComplexArray",
+			"convertToDateStr",
+			"convertToDateObj",
+			"advancedArchiveFile",
+			"createOrRouteItem",
+			"PropertyManager",
+			"trim",
+			"StatsObject",
+			"DIR_PROCESSING",
+			"EXPORT_ROOT",
+			"FORM_NAME",
+			"DIR_PICKUP",
+			"DIR_PROCESSING",
+			"EXPORT_ROOT",
+			"DIR_PROCESSING",
+			"DIR_ARCHIVE",
+			"DIR_ERROR",
+			"DRY_RUN",
+			"subob",
+			"SKIP_FILES_YOUNGER_THAN",
+			"return",
+			"wrapUp",
+			"XML_FILE_NAME",
+			"getPaymentAccountHolderName",
+			"getSupporterID",
+			"SupporterPhoneNumber",
+			"getStatementID",
+			"getChangeAddressFlag",
+			"null",
+			"FORM_DATA_DEF_FILE",
+			"doesFileExist",
+			"advancedArchiveFile",
+			"createOrRouteItem",
+			"StatsObject",
+			"trim",
+			"getValueFromComplexArray",
+			"moveDocPages",
+			"reindexDocument",
+			"escapeForRegExp",
+			"generateUniqueID",
+			"COMCreateObject",
+			"XML",
+			"fn_getTransID",
+			"fn_getCountry",
+			"populateXMLDataRecursive",
+			"reindexDocument",
+			"Payment",
+			"ARCHIVE_Q",
+			"Failed to export at least one XML or TIFF page",
+			"getDrawer",
+			"copyDocument",
+			"overrideWithAmountXMLValueIfExists",
+			"xml",
+			"getDocTypeCPs",
+			"fn_getTotalDistAmount",
+			"getAmount",
+			"trim",
+			"xml",
+			"bwXML",
+			"fn_getFullName",
+			"instanceof Function",
+			"val === undefined",
+			"arrCPs.push({name:cpName, value:cpValue",
+			"skip",
+			"emptyStr",
+			"function pad",
+			"pad",
+			"fn_getTotalCashCP",
+			"function getBWValue",
+			"fn_getTotalCashCP",
+			"getScanDate",
+			"convertToDateObj",
+			"convertToDateStr",
+			"convertToDateObj",
+			"convertToDateStr",
+			"index_pos"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"filePath",
+			"bwXML",
+			"SKIP",
+			"skip",
+			"emptyStr",
+			"emptyString",
+			"xml",
+			"lineInnerText",
+			"getStandardDateTime",
+			"intArr",
+			"STAGING_Q",
+			"notIdles",
+			"joinDoc",
+			"identity",
+			"fileType",
+			"identityObj",
+			"this.filenames",
+			"this.joinDoc",
+			"this.docId",
+			"docs",
+			"recs",
+			"tiffs",
+			"view",
+			"logViewResults",
+			"origin",
+			"filePattern",
+			"pages",
+			"debug.logINTOOL",
+			"toJSON2",
+			"request",
+			"consumeResponseS2B",
+			"consumeResponseB2S",
+			"consumeResponse",
+			"formatRequest",
+			"formatRequestS2B",
+			"formatRequestB2S",
+			"formatRequestS2B",
+			"formatRequest",
+			"request",
+			"ERROR",
+			"API_KEY",
+			"serviceURLs",
+			"restObj",
+			"tokenObj",
+			"com.error",
+			"strError",
+			"getHttpResponse"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 4,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/jdodge/Desktop/TCPT/Perceptive/R4/newScripts/PollPerceptive/PollPerceptive.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13728,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								301,
+								301
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 47.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/C/Jim/Mobile/PollPerceptive/app/main-page.xml",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 328,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								328,
+								328
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/C/Jim/Mobile/PollPerceptive/app/main-view-model.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 592,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								592,
+								592
+							]
+						],
+						"settings":
+						{
+							"rulers":
+							[
+							],
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3253,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1016,
+								1016
+							]
+						],
+						"settings":
+						{
+							"auto_indent": false,
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"tab_width": 2,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/Jim/Mobile/sample-Groceries/app/app.js",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 520,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								520,
+								520
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/Users/jdodge/Desktop/TCPT/Perceptive/R4/newScripts/PollPerceptive/Blah.js",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2457,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								696,
+								696
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 25.0
+	},
+	"input":
+	{
+		"height": 35.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 100.0
+	},
+	"pinned_build_system": "",
+	"project": "NewGitProject.sublime-project",
+	"replace":
+	{
+		"height": 50.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"PollPerceptive.sublime-project"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 625.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Users\\jdodge\\Desktop\\TCPT\\Perceptive\\R4\\newScripts\\PollPerceptive\\PollPerceptive.sublime-project"
+			]
+		],
+		"width": 475.0
+	},
+	"select_symbol":
+	{
+		"height": 490.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 1066.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 378.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
